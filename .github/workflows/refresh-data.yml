@@ -1,68 +1,75 @@
 # GitHub Action: 定时从飞书多维表格刷新项目数据
-# 每 6 小时同步一次，推送到 gh-pages 分支
-# 需要设置仓库 Secrets:
-#   FEISHU_APP_ID      — 飞书自建应用 App ID
-#   FEISHU_APP_SECRET  — 飞书自建应用 App Secret
+# 每 6 小时同步一次，生成 projects.json 后提交回 main 分支
+# 仓库 Secrets 需要设置:
+#   FEISHU_APP_ID
+#   FEISHU_APP_SECRET
 
 name: Refresh Project Data
 
 on:
   schedule:
-    - cron: '0 */6 * * *'   # 每 6 小时
-  workflow_dispatch:          # 也可手动触发
+    - cron: '0 */6 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
 
 jobs:
   refresh:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-        with:
-          ref: main
 
-      - name: Fetch projects from Feishu
-        id: fetch
+      - name: Fetch and generate projects.json
         run: |
           # 获取 tenant token
-          TOKEN=$(curl -s -X POST https://open.feishu.cn/open-apis/auth/v3/tenant_access_token/internal \
+          TOKEN_RESP=$(curl -s -X POST https://open.feishu.cn/open-apis/auth/v3/tenant_access_token/internal \
             -H "Content-Type: application/json" \
-            -d "{\"app_id\":\"${{ secrets.FEISHU_APP_ID }}\",\"app_secret\":\"${{ secrets.FEISHU_APP_SECRET }}\"}" \
-            | jq -r '.tenant_access_token')
+            -d "{\"app_id\":\"${{ secrets.FEISHU_APP_ID }}\",\"app_secret\":\"${{ secrets.FEISHU_APP_SECRET }}\"}")
+          TOKEN=$(node -e "console.log(JSON.parse(process.argv[1]).tenant_access_token)" "$TOKEN_RESP")
 
           # 读取多维表格
           curl -s "https://open.feishu.cn/open-apis/bitable/v1/apps/MVGGbyrUCaTzixs6aoXcZd8sn7k/tables/tblLeCFZXAggGpHw/records?page_size=50" \
             -H "Authorization: Bearer $TOKEN" \
-            -o raw-data.json
+            -o /tmp/raw.json
 
-          # 转换为前端需要的格式
+          # 转换为 projects.json
           node -e "
-          const d = require('./raw-data.json');
-          const items = d?.data?.items || [];
-          const getText = (v) => {
-            if (!v) return '';
-            if (typeof v === 'string') return v;
-            if (Array.isArray(v)) return v.map(t => t.text || t.name || '').join('');
-            return String(v);
-          };
-          const projects = items.map(item => {
-            const f = item.fields;
-            return {
-              id: item.record_id,
-              name: getText(f['项目名称']),
-              author: getText(f['项目作者']),
-              mentor: f['指导导师']?.[0]?.name || getText('指导导师') || '',
-              desc: getText(f['简介']),
-              link: f['链接']?.link || '',
-              img: f['封面图']?.[0]?.file_token
-                ? './img/' + f['封面图'][0].file_token + '.jpg'
-                : ''
+            const raw = require('/tmp/raw.json');
+            const items = raw?.data?.items || [];
+            const getText = v => {
+              if (!v) return '';
+              if (typeof v === 'string') return v;
+              if (Array.isArray(v)) return v.map(t => t.text || t.name || '').join('').trim();
+              return String(v);
             };
-          });
-          require('fs').writeFileSync('projects.json', JSON.stringify(projects, null, 2));
-          console.log('Projects saved: ' + projects.length);
+            const projects = items.map(item => {
+              const f = item.fields;
+              return {
+                id: item.record_id,
+                name: getText(f['项目名称']),
+                author: getText(f['项目作者']),
+                mentor: f['指导导师']?.[0]?.name || getText(f['指导导师']) || '',
+                desc: getText(f['简介']),
+                link: f['链接']?.link || '',
+                img: ''
+              };
+            });
+            require('fs').writeFileSync('projects.json', JSON.stringify(projects, null, 2));
+            console.log('✅ Saved ' + projects.length + ' projects');
           "
 
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: .
+      - name: Commit and push
+        run: |
+          git config user.name "MG Bot"
+          git config user.email "bot@mg-maker.com"
+          git add projects.json
+          git diff --staged --quiet || {
+            git commit -m "📦 Auto-update projects.json from Feishu"
+            git push
+          }
+
+      - name: Output URL
+        run: |
+          echo "✅ 数据已同步！"
+          echo "网站: https://hardihuang.github.io/MGProjectGallery"
