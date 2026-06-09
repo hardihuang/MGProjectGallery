@@ -4,15 +4,15 @@
     "name": "RGB像素时钟",
     "author": "黄嘉嘉、孙昱霖",
     "mentor": "黄昊",
+    "desc": "RGB像素时钟是一款基于ESP32的智能像素时钟，采用32x8 WS2812B LED点阵屏作为显示载体，集成了时钟显示、音乐节奏灯、炫酷动画、闹钟提醒等多种功能。支持WiFi配网、NTP自动校时，是桌面装饰与实用功能的完美结合。",
+    "link": "https://kcnqcovnabne.feishu.cn/wiki/Yt0vwecT5ilJeVkBtf0c2H1mnBp",
+    "website": "http://mgspace.wiki/jackhuang/RGBclock/",
     "age_tier": "创想",
     "tags": [
       "ESP32",
       "3D打印",
       "电子产品"
     ],
-    "desc": "RGB像素时钟是一款基于ESP32的智能像素时钟，采用32x8 WS2812B LED点阵屏作为显示载体，集成了时钟显示、音乐节奏灯、炫酷动画、闹钟提醒等多种功能。支持WiFi配网、NTP自动校时，是桌面装饰与实用功能的完美结合。",
-    "link": "https://kcnqcovnabne.feishu.cn/wiki/Yt0vwecT5ilJeVkBtf0c2H1mnBp",
-    "website": "http://mgspace.wiki/jackhuang/RGBclock/",
     "img": "img/HcUUbZvbbovKVrxfCKUcAL9Fnme.jpg"
   },
   {
@@ -20,15 +20,15 @@
     "name": "赛博水枪",
     "author": "张洋、张智清",
     "mentor": "黄昊",
+    "desc": "本项目由张洋与张智清合作研发 3D 打印电动高科技水枪，全程共五课时完成初代样机。张智清负责整机三维建模与零件 3D 打印，我负责电路设计、电池改装与接线组装。产品采用串联 7.4V 锂电池供电，优化内置吸水管路解决缺水吸水难题，摒弃故障主控改用简易闭环电路，实现稳定喷水。后续计划扩容储水结构、加装灯光配件，并整理资料开源分享。",
+    "link": "https://pcn4429v075d.feishu.cn/wiki/DjdHwM7pki1O0Fk3l5gc5ZzcnVg",
+    "website": "",
     "age_tier": "创想",
     "tags": [
       "3D打印",
       "电子产品",
       "娱乐"
     ],
-    "desc": "本项目由张洋与张智清合作研发 3D 打印电动高科技水枪，全程共五课时完成初代样机。张智清负责整机三维建模与零件 3D 打印，我负责电路设计、电池改装与接线组装。产品采用串联 7.4V 锂电池供电，优化内置吸水管路解决缺水吸水难题，摒弃故障主控改用简易闭环电路，实现稳定喷水。后续计划扩容储水结构、加装灯光配件，并整理资料开源分享。",
-    "link": "https://pcn4429v075d.feishu.cn/wiki/DjdHwM7pki1O0Fk3l5gc5ZzcnVg",
-    "website": "",
     "img": "img/ErFDbsarjovWV9xVL3KcDMA7n6c.jpg"
   },
   {
@@ -36,15 +36,15 @@
     "name": "团队贪吃蛇-万能按钮套装|Team Snake Game",
     "author": "黄嘉嘉、孙昱霖",
     "mentor": "黄昊",
+    "desc": "本产品是一套有趣的电脑多功能控制按钮，可以实现最高12路的输入按钮，实现键盘指定按键的映射、或是组合快捷键设置、鼠标光标控制等，非常适合与伙伴们一起使用，把单人操作的小游戏，变成全员协作的默契训练，在欢笑中体会团队协作的乐趣，让快乐翻倍，快来解锁更多玩法吧！",
+    "link": "https://sisy9sdzrms.feishu.cn/wiki/YTklwK7g6icQqAkRNtvctdHMnpg?fromScene=spaceOverview",
+    "website": "",
     "age_tier": "创想",
     "tags": [
       "3D打印",
       "电子产品",
       "娱乐"
     ],
-    "desc": "本产品是一套有趣的电脑多功能控制按钮，可以实现最高12路的输入按钮，实现键盘指定按键的映射、或是组合快捷键设置、鼠标光标控制等，非常适合与伙伴们一起使用，把单人操作的小游戏，变成全员协作的默契训练，在欢笑中体会团队协作的乐趣，让快乐翻倍，快来解锁更多玩法吧！",
-    "link": "https://sisy9sdzrms.feishu.cn/wiki/YTklwK7g6icQqAkRNtvctdHMnpg?fromScene=spaceOverview",
-    "website": "",
     "img": "img/B2SwbqpdXoTVBZxfN3EcxLglnTg.jpg"
   },
   {
@@ -52,15 +52,15 @@
     "name": "团队贪吃蛇V2.0-便携版",
     "author": "黄嘉嘉、孙昱霖",
     "mentor": "黄昊",
+    "desc": "本产品的特色是多人协作一起操控游戏，体会团队合作的乐趣，因此可以2-4个人一起参与游戏，一人控制一个按钮，一起铜鼓团队合作达成目标。",
+    "link": "https://sisy9sdzrms.feishu.cn/wiki/Y0M6wru2Si7sgRkT7hTcyAWvn7g?fromScene=spaceOverview",
+    "website": "",
     "age_tier": "创想",
     "tags": [
       "娱乐",
       "电子产品",
       "Arduino"
     ],
-    "desc": "本产品的特色是多人协作一起操控游戏，体会团队合作的乐趣，因此可以2-4个人一起参与游戏，一人控制一个按钮，一起铜鼓团队合作达成目标。",
-    "link": "https://sisy9sdzrms.feishu.cn/wiki/Y0M6wru2Si7sgRkT7hTcyAWvn7g?fromScene=spaceOverview",
-    "website": "",
     "img": "img/YdGnb4k5oopcjgxyVq9cjm8ZnSg.jpg"
   },
   {
@@ -68,13 +68,13 @@
     "name": "木艺×3D数字工程：从草图到实景的模块化家具智造",
     "author": "黄嘉嘉、孙昱霖",
     "mentor": "黄昊",
+    "desc": "「木艺 × 3D数字工程：从草图到实景的模块化家具智造」项目融合 Solidworks建模，3D 打印技术与传统木艺工艺，以及AI辅助编程的网站设计，以「设计并制作一款个性化模块化家具」为核心任务，学习者将体验从创意构思到实体落地，再带产品分享的全流程跨界设计：通过 Solidkworks 参数化建模、3D 打印精密连接件、木材切割与表面处理、无胶化组装等环节，实现数字模型与实体材料的精准对接，最后通过HTML5网页技术将产品做一个呈现并发布到互联网，实现产品化全流程闭环。",
+    "link": "https://sisy9sdzrms.feishu.cn/wiki/MyXcw3XTYipe9XkIPFcctvoRnOh?fromScene=spaceOverview",
+    "website": "http://mgspace.wiki/J&M/",
     "age_tier": "创想",
     "tags": [
       "家具"
     ],
-    "desc": "「木艺 × 3D数字工程：从草图到实景的模块化家具智造」项目融合 Solidworks建模，3D 打印技术与传统木艺工艺，以及AI辅助编程的网站设计，以「设计并制作一款个性化模块化家具」为核心任务，学习者将体验从创意构思到实体落地，再带产品分享的全流程跨界设计：通过 Solidkworks 参数化建模、3D 打印精密连接件、木材切割与表面处理、无胶化组装等环节，实现数字模型与实体材料的精准对接，最后通过HTML5网页技术将产品做一个呈现并发布到互联网，实现产品化全流程闭环。",
-    "link": "https://sisy9sdzrms.feishu.cn/wiki/MyXcw3XTYipe9XkIPFcctvoRnOh?fromScene=spaceOverview",
-    "website": "http://mgspace.wiki/J&M/",
     "img": "img/YJxObtoMdom5J2xkqmKcSyXmnbd.jpg"
   },
   {
@@ -82,14 +82,14 @@
     "name": "快充宝-项目文档",
     "author": "张文暤、李松择",
     "mentor": "杨盼盼",
+    "desc": "快充宝：这不仅仅是一个充电宝，更是一座你可以随身携带的微型能量基站。本项目采用极客视角的透明视窗设计，结合3D打印工艺，将强悍的快充性能与可视化的电力监测完美融合。它专为追求极致性能与独特个性的科技爱好者打造。",
+    "link": "https://sisy9sdzrms.feishu.cn/wiki/TGmnwqH7oiNTJskRsO1cl1x7n1c",
+    "website": "",
     "age_tier": "创想",
     "tags": [
       "电子产品",
       "ESP32"
     ],
-    "desc": "快充宝：这不仅仅是一个充电宝，更是一座你可以随身携带的微型能量基站。本项目采用极客视角的透明视窗设计，结合3D打印工艺，将强悍的快充性能与可视化的电力监测完美融合。它专为追求极致性能与独特个性的科技爱好者打造。",
-    "link": "https://sisy9sdzrms.feishu.cn/wiki/TGmnwqH7oiNTJskRsO1cl1x7n1c",
-    "website": "",
     "img": "img/A875bQJa9ocDIkx232mcPb9vnZg.jpg"
   },
   {
@@ -97,13 +97,13 @@
     "name": "分布式厨房安全伴侣",
     "author": "王禹杰、钟洛熙",
     "mentor": "杨盼盼",
+    "desc": "在现代家庭生活中，厨房是用火用电最集中的区域，也是家庭安全隐患的高发地。\n许多人在煲汤或烧水时，会利用等待时间去客厅看电视或玩手机，很容易因为分心而忘记厨房正在烹饪，导致干烧甚至火灾。",
+    "link": "https://sisy9sdzrms.feishu.cn/wiki/UxObwDie8iAjLPkv9S3cpOsvnEr",
+    "website": "",
     "age_tier": "创想",
     "tags": [
       "电子产品"
     ],
-    "desc": "在现代家庭生活中，厨房是用火用电最集中的区域，也是家庭安全隐患的高发地。\n许多人在煲汤或烧水时，会利用等待时间去客厅看电视或玩手机，很容易因为分心而忘记厨房正在烹饪，导致干烧甚至火灾。",
-    "link": "https://sisy9sdzrms.feishu.cn/wiki/UxObwDie8iAjLPkv9S3cpOsvnEr",
-    "website": "",
     "img": "img/M6nNbyGSDoIyDjxHbUNctMD3nIc.jpg"
   },
   {
@@ -111,14 +111,14 @@
     "name": "水冷工作站",
     "author": "方鸿睿、李燊、黄传诚、张文暤、李松择",
     "mentor": "杨盼盼",
+    "desc": "水冷工作站是一款专为重度手游玩家打造的桌面级极客装备，彻底解决手机、iPad等设备在游戏时的发热降频与掉电快难题。\n产品采用极具电竞氛围的堆叠结构：顶部为自带炫彩光效的循环小水箱与3D打印方形导风口，底部集成了120规格12管薄冷排与12V高效静音风扇，构建了强大的水冷散热底座。\n制冷核心位于专属磁吸“冷端”：采用TEC半导体制冷片叠加40*40双面抛光纯铜水冷头，实现单一区域的高效极速传热降温。此外，工作站搭载了Arduino nano mini主控大脑，结合DS18B20水温传感器与NTC薄膜热敏电阻，能实时精准监测系统温度，并将各项数据直观投射在主机正面的OLED屏幕上。整机完美融合了硬核温控技术、静音体验与赛博朋克美学。",
+    "link": "https://sisy9sdzrms.feishu.cn/wiki/Wx7Kwdke7iIvx1kS6nccJuWanag",
+    "website": "",
     "age_tier": "创想",
     "tags": [
       "ESP32",
       "3D打印"
     ],
-    "desc": "水冷工作站是一款专为重度手游玩家打造的桌面级极客装备，彻底解决手机、iPad等设备在游戏时的发热降频与掉电快难题。\n产品采用极具电竞氛围的堆叠结构：顶部为自带炫彩光效的循环小水箱与3D打印方形导风口，底部集成了120规格12管薄冷排与12V高效静音风扇，构建了强大的水冷散热底座。\n制冷核心位于专属磁吸“冷端”：采用TEC半导体制冷片叠加40*40双面抛光纯铜水冷头，实现单一区域的高效极速传热降温。此外，工作站搭载了Arduino nano mini主控大脑，结合DS18B20水温传感器与NTC薄膜热敏电阻，能实时精准监测系统温度，并将各项数据直观投射在主机正面的OLED屏幕上。整机完美融合了硬核温控技术、静音体验与赛博朋克美学。",
-    "link": "https://sisy9sdzrms.feishu.cn/wiki/Wx7Kwdke7iIvx1kS6nccJuWanag",
-    "website": "",
     "img": "img/A3VQbhPLZoECbbx357XcKh5mnzd.jpg"
   },
   {
@@ -126,13 +126,13 @@
     "name": "表情机器人",
     "author": "祁咏麟",
     "mentor": "刘海军",
+    "desc": "制作一台触摸互动表情机器人，可通过触摸切换 OLED 屏动态表情，搭配蜂鸣器发声、振动反馈，实现趣味陪伴互动。",
+    "link": "https://scn672i967ex.feishu.cn/wiki/CuZPw8dUciTkgBkzywIcFJewnfb",
+    "website": "",
     "age_tier": "创想",
     "tags": [
       "电子产品"
     ],
-    "desc": "制作一台触摸互动表情机器人，可通过触摸切换 OLED 屏动态表情，搭配蜂鸣器发声、振动反馈，实现趣味陪伴互动。",
-    "link": "https://scn672i967ex.feishu.cn/wiki/CuZPw8dUciTkgBkzywIcFJewnfb",
-    "website": "",
     "img": "img/AUYhbShCKodJnexdoS8cQlqWnYf.jpg"
   },
   {
@@ -140,13 +140,13 @@
     "name": "Chroma智能白板笔",
     "author": "Tiger、Thomas、Eric",
     "mentor": "杨盼盼",
+    "desc": "我们国际学校目前上课都是用白板笔进行板书授课，老师们经常会使用不同颜色的白板笔（黑色、蓝色、红色）进行课堂内容重点标识，经常就会出现老师们找不到白板笔的情况，偶尔可能会打断课程的节奏，而且自己在很多机构上课也会发现教室里的白板笔经常会出现没墨的情况，老师们上课找不到白板笔，因此我们想设计一款智能白板笔，方便经常使用白板笔的人群进行板书。",
+    "link": "https://sisy9sdzrms.feishu.cn/wiki/RSR9wToqeis2r0knDuEcSXNGnNe",
+    "website": "",
     "age_tier": "创想",
     "tags": [
       "电子产品"
     ],
-    "desc": "我们国际学校目前上课都是用白板笔进行板书授课，老师们经常会使用不同颜色的白板笔（黑色、蓝色、红色）进行课堂内容重点标识，经常就会出现老师们找不到白板笔的情况，偶尔可能会打断课程的节奏，而且自己在很多机构上课也会发现教室里的白板笔经常会出现没墨的情况，老师们上课找不到白板笔，因此我们想设计一款智能白板笔，方便经常使用白板笔的人群进行板书。",
-    "link": "https://sisy9sdzrms.feishu.cn/wiki/RSR9wToqeis2r0knDuEcSXNGnNe",
-    "website": "",
     "img": "img/Ph7LbCMPHoC6BlxFuGXcUt3Fnab.jpg"
   },
   {
@@ -154,13 +154,13 @@
     "name": "安防监控车",
     "author": "李燊、黄传诚、方鸿睿",
     "mentor": "杨盼盼",
+    "desc": "传统的安防摄像头通常固定安装，视野受限、无法灵活追踪目标，难以实现全方位、针对性监控。\n为此我们设计出「安防监控车」 —— 一款基于ESP8266主控、搭载MQTT通信平台的WiFi远程遥控移动监控设备。它不仅具备300W像素画面捕捉能力，更能通过手机实时遥控运动，实现动态追踪与多角度监控，为您家庭中的特殊场景提供主动、灵活的安全守护。",
+    "link": "https://sisy9sdzrms.feishu.cn/wiki/Uu8DwjqQwimHlGkj6tmcGQi8n6b",
+    "website": "",
     "age_tier": "创想",
     "tags": [
       "机器人"
     ],
-    "desc": "传统的安防摄像头通常固定安装，视野受限、无法灵活追踪目标，难以实现全方位、针对性监控。\n为此我们设计出「安防监控车」 —— 一款基于ESP8266主控、搭载MQTT通信平台的WiFi远程遥控移动监控设备。它不仅具备300W像素画面捕捉能力，更能通过手机实时遥控运动，实现动态追踪与多角度监控，为您家庭中的特殊场景提供主动、灵活的安全守护。",
-    "link": "https://sisy9sdzrms.feishu.cn/wiki/Uu8DwjqQwimHlGkj6tmcGQi8n6b",
-    "website": "",
     "img": "img/R3cHbF3f5oyof7xZfiTcCZeanTb.jpg"
   },
   {
@@ -168,14 +168,14 @@
     "name": "智能音乐盒",
     "author": "陆展",
     "mentor": "周建锋",
+    "desc": "本智能音乐盒搭载MP3语音模块，可存储并播放英语音频与背景音乐。通过实体按键就能轻松切换上一首、下一首，操作简单便捷。既能日常播放音乐舒缓身心，也适合学生循环收听英语听力，兼顾休闲与学习，在动手创作中掌握音频控制与按键编程知识。",
+    "link": "https://sisy9sdzrms.feishu.cn/wiki/K89LwQ0BgiT3eykpUZec3Fd0nvc",
+    "website": "",
     "age_tier": "创想",
     "tags": [
       "Arduino",
       "3D打印"
     ],
-    "desc": "本智能音乐盒搭载MP3语音模块，可存储并播放英语音频与背景音乐。通过实体按键就能轻松切换上一首、下一首，操作简单便捷。既能日常播放音乐舒缓身心，也适合学生循环收听英语听力，兼顾休闲与学习，在动手创作中掌握音频控制与按键编程知识。",
-    "link": "https://sisy9sdzrms.feishu.cn/wiki/K89LwQ0BgiT3eykpUZec3Fd0nvc",
-    "website": "",
     "img": "img/X3qQbc84voSiftxNcFscrwEvnhc.jpg"
   }
 ]
