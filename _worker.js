@@ -40,6 +40,17 @@ export default {
             if (Array.isArray(v)) return v.map(t => t.text || t.name || '').join('');
             return String(v);
           };
+          const getArr = (v) => {
+            if (!v) return [];
+            if (Array.isArray(v)) return v;
+            return [];
+          };
+          const getUrl = (v) => {
+            if (!v) return '';
+            if (typeof v === 'string') return v;
+            if (v.link) return v.link;
+            return '';
+          };
           return {
             id: item.record_id,
             name: getText('项目名称'),
@@ -47,6 +58,9 @@ export default {
             mentor: f['指导导师']?.[0]?.name || getText('指导导师') || '',
             desc: getText('简介'),
             link: f['链接']?.link || '',
+            website: getUrl(f['网站'] || ''),
+            age_tier: getText('阶段'),
+            tags: getArr(f['标签'] || []),
             img: f['封面图']?.[0]?.file_token
               ? `${url.origin}/api/image/${f['封面图'][0].file_token}`
               : ''

@@ -36,7 +36,7 @@ jobs:
           # 创建图片目录
           mkdir -p img
 
-          # 用 node 解析数据
+          # 用 node 解析数据（含新增字段: age_tier, tags, website）
           node -e "
           const raw = require('/tmp/raw.json');
           const items = raw?.data?.items || [];
@@ -46,6 +46,18 @@ jobs:
             if (Array.isArray(v)) return v.map(t => t.text || t.name || '').join('').trim();
             return String(v);
           };
+          const getArr = v => {
+            if (!v) return [];
+            if (Array.isArray(v)) return v.map(t => t.text || t.name || String(t)).filter(Boolean);
+            return [String(v)];
+          };
+          const getUrl = v => {
+            if (!v) return '';
+            if (typeof v === 'string') return v;
+            if (v.link) return v.link;
+            if (Array.isArray(v) && v[0]) return v[0].link || v[0].text || '';
+            return '';
+          };
           const projects = items.map(item => {
             const f = item.fields;
             return {
@@ -54,7 +66,10 @@ jobs:
               author: getText(f['项目作者']),
               mentor: f['指导导师']?.[0]?.name || getText(f['指导导师']) || '',
               desc: getText(f['简介']),
-              link: f['链接']?.link || '',
+              link: getUrl(f['链接']),
+              website: getUrl(f['网站'] || ''),
+              age_tier: getText(f['阶段'] || ''),
+              tags: getArr(f['标签'] || []),
               fileToken: f['封面图']?.[0]?.file_token || ''
             };
           });
@@ -80,7 +95,6 @@ jobs:
           echo "Compressing images..."
           for f in img/*.jpg; do
             if [ -f "$f" ]; then
-              # 使用 ImageMagick 压缩（如果存在），否则跳过
               if command -v convert &> /dev/null; then
                 convert "$f" -resize 1200x1200 -quality 80 "${f}.compressed" && mv "${f}.compressed" "$f"
               elif command -v magick &> /dev/null; then
@@ -95,17 +109,20 @@ jobs:
           # 生成最终的 projects.json（带本地图片路径）
           node -e "
           const projects = require('/tmp/projects-meta.json');
-          projects.forEach(p => { p.img = p.fileToken ? 'img/' + p.fileToken + '.jpg' : ''; delete p.fileToken; });
+          projects.forEach(p => {
+            p.img = p.fileToken ? 'img/' + p.fileToken + '.jpg' : '';
+            delete p.fileToken;
+          });
           require('fs').writeFileSync('projects.json', JSON.stringify(projects, null, 2));
-          console.log('✅ Final projects.json written');
+          console.log('✅ Final projects.json written with ' + projects.length + ' projects');
           "
 
       - name: Commit and push
         run: |
           git config user.name "MG Bot"
           git config user.email "bot@mg-maker.com"
-          git add projects.json img/
+          git add projects.json img/ manifest.json sw.js logo.svg
           git diff --staged --quiet || {
-            git commit -m "📦 Auto-update: projects.json + cover images"
+            git commit -m "📦 Auto-update: projects.json + cover images + PWA assets"
             git push
           }
