@@ -70,10 +70,25 @@ jobs:
               curl -s -o "img/$token.jpg" \
                 "https://open.feishu.cn/open-apis/drive/v1/medias/$token/download" \
                 -H "Authorization: Bearer $TOKEN" && \
-                echo "  📷 $token.jpg ($(stat -c%s "img/$token.jpg" 2>/dev/null || stat -f%z "img/$token.jpg" 2>/dev/null) bytes)" || \
-                echo "  ❌ $token.jpg failed"
+              echo "  📥 $token.jpg downloaded"
             else
               echo "  ⏭ $token.jpg already exists"
+            fi
+          done
+
+          # 压缩封面图（1200px宽，控制质量）
+          echo "Compressing images..."
+          for f in img/*.jpg; do
+            if [ -f "$f" ]; then
+              # 使用 ImageMagick 压缩（如果存在），否则跳过
+              if command -v convert &> /dev/null; then
+                convert "$f" -resize 1200x1200 -quality 80 "${f}.compressed" && mv "${f}.compressed" "$f"
+              elif command -v magick &> /dev/null; then
+                magick "$f" -resize 1200x1200 -quality 80 "${f}.compressed" && mv "${f}.compressed" "$f"
+              else
+                echo "  ⚠️ No image tool found, skipping compression"
+              fi
+              echo "  📦 $(basename $f): $(du -h "$f" | cut -f1)"
             fi
           done
 
