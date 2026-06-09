@@ -1,5 +1,5 @@
-# GitHub Action: 定时从飞书多维表格刷新项目数据
-# 每 6 小时同步一次，生成 projects.json 后提交回 main 分支
+# GitHub Action: 定时从飞书多维表格刷新项目数据 + 下载封面图片
+# 每 6 小时同步一次，提交回 main 分支
 # 仓库 Secrets 需要设置:
 #   FEISHU_APP_ID
 #   FEISHU_APP_SECRET
@@ -20,7 +20,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Fetch and generate projects.json
+      - name: Fetch data and images from Feishu
         run: |
           # 获取 tenant token
           TOKEN_RESP=$(curl -s -X POST https://open.feishu.cn/open-apis/auth/v3/tenant_access_token/internal \
@@ -33,43 +33,64 @@ jobs:
             -H "Authorization: Bearer $TOKEN" \
             -o /tmp/raw.json
 
-          # 转换为 projects.json
+          # 创建图片目录
+          mkdir -p img
+
+          # 用 node 解析数据
           node -e "
-            const raw = require('/tmp/raw.json');
-            const items = raw?.data?.items || [];
-            const getText = v => {
-              if (!v) return '';
-              if (typeof v === 'string') return v;
-              if (Array.isArray(v)) return v.map(t => t.text || t.name || '').join('').trim();
-              return String(v);
+          const raw = require('/tmp/raw.json');
+          const items = raw?.data?.items || [];
+          const getText = v => {
+            if (!v) return '';
+            if (typeof v === 'string') return v;
+            if (Array.isArray(v)) return v.map(t => t.text || t.name || '').join('').trim();
+            return String(v);
+          };
+          const projects = items.map(item => {
+            const f = item.fields;
+            return {
+              id: item.record_id,
+              name: getText(f['项目名称']),
+              author: getText(f['项目作者']),
+              mentor: f['指导导师']?.[0]?.name || getText(f['指导导师']) || '',
+              desc: getText(f['简介']),
+              link: f['链接']?.link || '',
+              fileToken: f['封面图']?.[0]?.file_token || ''
             };
-            const projects = items.map(item => {
-              const f = item.fields;
-              return {
-                id: item.record_id,
-                name: getText(f['项目名称']),
-                author: getText(f['项目作者']),
-                mentor: f['指导导师']?.[0]?.name || getText(f['指导导师']) || '',
-                desc: getText(f['简介']),
-                link: f['链接']?.link || '',
-                img: ''
-              };
-            });
-            require('fs').writeFileSync('projects.json', JSON.stringify(projects, null, 2));
-            console.log('✅ Saved ' + projects.length + ' projects');
+          });
+          require('fs').writeFileSync('/tmp/projects-meta.json', JSON.stringify(projects, null, 2));
+          console.log('✅ ' + projects.length + ' projects parsed');
+          "
+
+          # 下载封面图
+          echo "Downloading cover images..."
+          mkdir -p img
+          for token in $(node -e "JSON.parse(require('fs').readFileSync('/tmp/projects-meta.json','utf8')).forEach(p => { if(p.fileToken) console.log(p.fileToken) })"); do
+            if [ ! -f "img/$token.jpg" ]; then
+              curl -s -o "img/$token.jpg" \
+                "https://open.feishu.cn/open-apis/drive/v1/medias/$token/download" \
+                -H "Authorization: Bearer $TOKEN" && \
+                echo "  📷 $token.jpg ($(stat -c%s "img/$token.jpg" 2>/dev/null || stat -f%z "img/$token.jpg" 2>/dev/null) bytes)" || \
+                echo "  ❌ $token.jpg failed"
+            else
+              echo "  ⏭ $token.jpg already exists"
+            fi
+          done
+
+          # 生成最终的 projects.json（带本地图片路径）
+          node -e "
+          const projects = require('/tmp/projects-meta.json');
+          projects.forEach(p => { p.img = p.fileToken ? 'img/' + p.fileToken + '.jpg' : ''; delete p.fileToken; });
+          require('fs').writeFileSync('projects.json', JSON.stringify(projects, null, 2));
+          console.log('✅ Final projects.json written');
           "
 
       - name: Commit and push
         run: |
           git config user.name "MG Bot"
           git config user.email "bot@mg-maker.com"
-          git add projects.json
+          git add projects.json img/
           git diff --staged --quiet || {
-            git commit -m "📦 Auto-update projects.json from Feishu"
+            git commit -m "📦 Auto-update: projects.json + cover images"
             git push
           }
-
-      - name: Output URL
-        run: |
-          echo "✅ 数据已同步！"
-          echo "网站: https://hardihuang.github.io/MGProjectGallery"
