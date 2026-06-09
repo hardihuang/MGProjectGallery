@@ -91,18 +91,16 @@ jobs:
             fi
           done
 
-          # 压缩封面图（1200px宽，控制质量）
+          # 压缩封面图（安装 ImageMagick 后压缩到 1200px 宽）
+          echo "Installing ImageMagick..."
+          sudo apt-get update -qq && sudo apt-get install -y -qq imagemagick 2>&1 | tail -2 || echo "⚠️ apt failed"
+          
           echo "Compressing images..."
           for f in img/*.jpg; do
             if [ -f "$f" ]; then
-              if command -v convert &> /dev/null; then
-                convert "$f" -resize 1200x1200 -quality 80 "${f}.compressed" && mv "${f}.compressed" "$f"
-              elif command -v magick &> /dev/null; then
-                magick "$f" -resize 1200x1200 -quality 80 "${f}.compressed" && mv "${f}.compressed" "$f"
-              else
-                echo "  ⚠️ No image tool found, skipping compression"
-              fi
-              echo "  📦 $(basename $f): $(du -h "$f" | cut -f1)"
+              convert "$f" -resize 1200x1200 -quality 80 "${f}.compressed" 2>/dev/null && mv "${f}.compressed" "$f" && \
+              echo "  ✅ $(basename $f): $(du -h "$f" | cut -f1)" || \
+              echo "  ⚠️ $(basename $f): compress failed"
             fi
           done
 
