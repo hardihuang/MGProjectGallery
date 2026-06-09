@@ -437,14 +437,16 @@ button{font-family:inherit}
 }
 .modal-handle{width:36px;height:4px;border-radius:2px;background:var(--bg4);margin:12px auto 0;flex-shrink:0}
 .modal-close{
-  position:absolute;top:16px;right:16px;
-  width:28px;height:28px;border-radius:50%;
-  background:var(--surface2);border:1px solid var(--border);
-  color:var(--text2);font-size:14px;cursor:pointer;z-index:10;
+  position:absolute;top:60px;right:20px;
+  width:40px;height:40px;border-radius:50%;
+  background:rgba(0,0,0,.55);border:none;
+  color:#fff;font-size:20px;font-weight:600;cursor:pointer;z-index:10;
   display:flex;align-items:center;justify-content:center;
-  transition:background .2s;
+  box-shadow:0 2px 12px rgba(0,0,0,.25);
+  transition:background .2s,transform .2s;
+  -webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);
 }
-.modal-close:hover{background:var(--bg4)}
+.modal-close:active{background:rgba(0,0,0,.7);transform:scale(.92)}
 .modal-scroll{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch}
 .modal-img-wrap{position:relative;width:100%;aspect-ratio:16/9;overflow:hidden;background:var(--bg4)}
 .modal-img{width:100%;height:100%;object-fit:cover}
@@ -840,13 +842,22 @@ function setupEvents() {
     if (currentIndex < filtered.length-1) { currentIndex++; updateModal(); }
   });
 
-  let tx = 0;
-  document.getElementById('modal').addEventListener('touchstart', e => { tx = e.touches[0].clientX; }, {passive:true});
+  let touchStart = { x: 0, y: 0 };
+  document.getElementById('modal').addEventListener('touchstart', e => {
+    touchStart = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+  }, {passive:true});
   document.getElementById('modal').addEventListener('touchend', e => {
-    const d = e.changedTouches[0].clientX - tx;
-    if (Math.abs(d) > 60) {
-      if (d > 0 && currentIndex > 0) { currentIndex--; updateModal(); }
-      else if (d < 0 && currentIndex < filtered.length-1) { currentIndex++; updateModal(); }
+    const dx = e.changedTouches[0].clientX - touchStart.x;
+    const dy = e.changedTouches[0].clientY - touchStart.y;
+    // 下滑关闭（垂直距离 > 100px 且垂直大于水平）
+    if (dy > 100 && Math.abs(dy) > Math.abs(dx) * 1.5) {
+      closeModal();
+      return;
+    }
+    // 左右滑动切换
+    if (Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy)) {
+      if (dx > 0 && currentIndex > 0) { currentIndex--; updateModal(); }
+      else if (dx < 0 && currentIndex < filtered.length-1) { currentIndex++; updateModal(); }
     }
   }, {passive:true});
 
