@@ -4,11 +4,15 @@
   "description": "MG设计课 · 孩子们的优质创客项目展示",
   "start_url": "./index.html",
   "display": "standalone",
-  "background_color": "#000000",
-  "theme_color": "#000000",
+  "background_color": "#f5f5f7",
+  "theme_color": "#0071e3",
   "orientation": "portrait-primary",
   "categories": ["education", "kids"],
   "lang": "zh-CN",
+  "scope": "./",
+  "edge_side_panel": {
+    "preferred_width": 400
+  },
   "icons": [
     {
       "src": "icons/icon-72.png",

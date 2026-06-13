@@ -543,6 +543,15 @@ button{font-family:inherit}
   <div class="masonry" id="grid">
     <div class="loading"><div class="spinner"></div>加载中…</div>
   </div>
+  <!-- Image cache status indicator -->
+  <div id="cacheStatus" style="
+    position:fixed;bottom:calc(20px + env(safe-area-inset-bottom));left:50%;
+    transform:translateX(-50%);z-index:100;padding:8px 16px;
+    border-radius:20px;background:rgba(0,0,0,.75);color:#fff;
+    font-size:12px;font-weight:500;backdrop-filter:blur(12px);
+    transition:opacity .6s;opacity:0;pointer-events:none;
+    white-space:nowrap;max-width:90vw;
+  "></div>
 </section>
 
 <footer class="footer">
@@ -677,6 +686,8 @@ async function loadProjects() {
     renderGrid();
     setupEvents();
     registerSW();
+    // Pre-cache images after projects are loaded
+    setTimeout(preCacheImages, 500);
   } catch(e) {
     document.getElementById('grid').innerHTML = '<div class="empty">暂无数据，请稍后重试</div>';
   }
@@ -879,7 +890,40 @@ function setupEvents() {
 
 function registerSW() {
   if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('./sw.js').catch(() => {});
+    navigator.serviceWorker.register('./sw.js').then(reg => {
+      // Service worker is ready — pre-cache images will be called after load
+      window._swReg = reg;
+      if (reg.active) preCacheImages();
+      reg.addEventListener('updatefound', () => {
+        const newSW = reg.installing;
+        newSW.addEventListener('statechange', () => {
+          if (newSW.state === 'activated') preCacheImages();
+        });
+      });
+    }).catch(() => {});
+  }
+}
+
+function preCacheImages() {
+  if (!window._swReg || !projects.length) return;
+  const imgUrls = [];
+  const seen = new Set();
+  projects.forEach(p => {
+    if (p.img && !seen.has(p.img)) {
+      seen.add(p.img);
+      imgUrls.push(p.img);
+    }
+  });
+  if (imgUrls.length === 0) return;
+  // Send to service worker for background caching
+  window._swReg.active.postMessage({ type: 'CACHE_IMAGES', urls: imgUrls });
+  // Show a subtle caching indicator
+  const el = document.getElementById('cacheStatus');
+  if (el) {
+    el.textContent = `📦 ${imgUrls.length} 张图片后台缓存中…`;
+    el.style.opacity = '1';
+    // Auto-hide after 3 seconds
+    setTimeout(() => { el.style.opacity = '0'; }, 3000);
   }
 }
 
