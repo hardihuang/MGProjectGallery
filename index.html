@@ -201,6 +201,7 @@ button{font-family:inherit}
 .filter-tab.tier-qimeng.active{background:#25a244;border-color:#25a244;box-shadow:0 2px 10px rgba(37,162,68,.25)}
 .filter-tab.tier-tansuo.active{background:var(--blue);border-color:var(--blue)}
 .filter-tab.tier-chuangxiang.active{background:var(--purple);border-color:var(--purple);box-shadow:0 2px 10px rgba(110,63,243,.25)}
+.filter-tab.tag-opc.active{background:#ff6b35;border-color:#ff6b35;box-shadow:0 2px 10px rgba(255,107,53,.25)}
 
 /* ── Grid Section ── */
 .grid-section{
@@ -523,12 +524,13 @@ button{font-family:inherit}
 <!-- Filter Bar -->
 <div class="filter-section">
   <div class="filter-inner">
-    <span class="filter-label">阶段</span>
+    <span class="filter-label">分类</span>
     <div class="filter-tabs" id="filterBar">
       <button class="filter-tab active" data-filter="all" data-type="all">全部</button>
       <button class="filter-tab tier-qimeng" data-filter="启蒙" data-type="age">🌱 启蒙</button>
       <button class="filter-tab tier-tansuo" data-filter="探索" data-type="age">🔭 探索</button>
       <button class="filter-tab tier-chuangxiang" data-filter="创想" data-type="age">✨ 创想</button>
+      <button class="filter-tab tag-opc" data-filter="opc" data-type="tag">🚀 OPC</button>
     </div>
   </div>
 </div>
@@ -714,6 +716,8 @@ function buildCardBtns(p, extraClass='') {
 function renderGrid() {
   if (currentFilterType === 'age' && currentFilter !== 'all') {
     filtered = projects.filter(p => (p.age_tier||'') === currentFilter);
+  } else if (currentFilterType === 'tag' && currentFilter !== 'all') {
+    filtered = projects.filter(p => (p.tags||[]).includes(currentFilter));
   } else {
     filtered = [...projects];
   }

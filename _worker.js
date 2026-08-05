@@ -28,7 +28,7 @@ export default {
       if (url.pathname === '/api/projects') {
         const token = await getToken(env);
         const resp = await fetch(
-          `https://open.feishu.cn/open-apis/bitable/v1/apps/${BITABLE_APP}/tables/${BITABLE_TABLE}/records?page_size=50`,
+          `https://open.feishu.cn/open-apis/bitable/v1/apps/${BITABLE_APP}/tables/${BITABLE_TABLE}/records?page_size=100&automatic_fields=true`,
           { headers: { 'Authorization': `Bearer ${token}` } }
         );
         const data = await resp.json();
@@ -42,8 +42,8 @@ export default {
           };
           const getArr = (v) => {
             if (!v) return [];
-            if (Array.isArray(v)) return v;
-            return [];
+            if (Array.isArray(v)) return v.map(t => t.text || t.name || String(t)).filter(Boolean);
+            return [String(v)].filter(Boolean);
           };
           const getUrl = (v) => {
             if (!v) return '';
@@ -61,11 +61,14 @@ export default {
             website: getUrl(f['网站'] || ''),
             age_tier: getText('阶段'),
             tags: getArr(f['标签'] || []),
+            created_time: item.created_time || 0,
             img: f['封面图']?.[0]?.file_token
               ? `${url.origin}/api/image/${f['封面图'][0].file_token}`
               : ''
           };
-        });
+        }).filter(p => p.name);
+        // 倒序排列：最新的项目在最上面
+        projects.sort((a, b) => (b.created_time || 0) - (a.created_time || 0));
         return new Response(JSON.stringify(projects), {
           headers: { ...corsHeaders, 'Content-Type': 'application/json', 'Cache-Control': 'public, max-age=300' }
         });

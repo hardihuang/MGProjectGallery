@@ -28,8 +28,8 @@ jobs:
             -d "{\"app_id\":\"${{ secrets.FEISHU_APP_ID }}\",\"app_secret\":\"${{ secrets.FEISHU_APP_SECRET }}\"}")
           TOKEN=$(node -e "console.log(JSON.parse(process.argv[1]).tenant_access_token)" "$TOKEN_RESP")
 
-          # 读取多维表格
-          curl -s "https://open.feishu.cn/open-apis/bitable/v1/apps/MVGGbyrUCaTzixs6aoXcZd8sn7k/tables/tblLeCFZXAggGpHw/records?page_size=50" \
+          # 读取多维表格（automatic_fields=true 获取创建时间，用于倒序排列，最新在前）
+          curl -s "https://open.feishu.cn/open-apis/bitable/v1/apps/MVGGbyrUCaTzixs6aoXcZd8sn7k/tables/tblLeCFZXAggGpHw/records?page_size=100&automatic_fields=true" \
             -H "Authorization: Bearer $TOKEN" \
             -o /tmp/raw.json
 
@@ -58,6 +58,7 @@ jobs:
             if (Array.isArray(v) && v[0]) return v[0].link || v[0].text || '';
             return '';
           };
+          // 过滤掉没有项目名称的空记录
           const projects = items.map(item => {
             const f = item.fields;
             return {
@@ -70,11 +71,14 @@ jobs:
               website: getUrl(f['网站'] || ''),
               age_tier: getText(f['阶段'] || ''),
               tags: getArr(f['标签'] || []),
+              created_time: item.created_time || 0,
               fileToken: f['封面图']?.[0]?.file_token || ''
             };
-          });
+          }).filter(p => p.name);
+          // 倒序排列：最新的项目在最上面
+          projects.sort((a, b) => (b.created_time || 0) - (a.created_time || 0));
           require('fs').writeFileSync('/tmp/projects-meta.json', JSON.stringify(projects, null, 2));
-          console.log('✅ ' + projects.length + ' projects parsed');
+          console.log('✅ ' + projects.length + ' projects parsed (newest first)');
           "
 
           # 下载封面图
